@@ -1,0 +1,53 @@
+$kind: http-request
+url: "{{baseUrl}}/booking"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"firstname\": \"QA\",\r
+
+    \  \"lastname\": \"Trainee\",\r
+
+    \  \"totalprice\": 150,\r
+
+    \  \"depositpaid\": true,\r
+
+    \  \"bookingdates\": {\r
+
+    \    \"checkin\": \"2026-01-01\",\r
+
+    \    \"checkout\": \"2026-01-05\"\r
+
+    \  },\r
+
+    \  \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const responseData = pm.response.json();\r
+
+      \r
+
+      pm.test(\"Booking created successfully\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Returned data matches what we sent\", function () {\r
+
+      \    pm.expect(responseData.booking.firstname).to.eql(\"QA\");\r
+
+      });\r
+
+      \r
+
+      // CHAINING: Save the booking ID for later\r
+
+      pm.collectionVariables.set(\"bookingId\", responseData.bookingid);"
+    language: text/javascript
+order: 3000

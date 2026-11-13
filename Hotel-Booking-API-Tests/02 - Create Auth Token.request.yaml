@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{baseUrl}}/auth"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"username\": \"admin\",\r
+
+    \  \"password\": \"password123\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "// 1. Get the JSON response body\r
+
+      const responseData = pm.response.json();\r
+
+      \r
+
+      // 2. Test that the token actually exists\r
+
+      pm.test(\"Token is present in response\", function () {\r
+
+      \    pm.expect(responseData.token).to.not.be.undefined;\r
+
+      });\r
+
+      \r
+
+      // 3. CHAINING: Save the token to our collection variable\r
+
+      pm.collectionVariables.set(\"token\", responseData.token);"
+    language: text/javascript
+order: 2000

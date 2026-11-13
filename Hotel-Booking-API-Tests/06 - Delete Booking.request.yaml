@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{baseUrl}}/booking/{{bookingId}}"
+method: DELETE
+headers:
+  Cookie: token={{token}}
+order: 6000

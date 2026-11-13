@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/booking/{{bookingId}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "const responseData = pm.response.json();\r
+
+      \r
+
+      pm.test(\"Successfully fetched booking\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Fetched correct booking data\", function () {\r
+
+      \    pm.expect(responseData.firstname).to.eql(\"QA\");\r
+
+      \    pm.expect(responseData.additionalneeds).to.eql(\"Breakfast\");\r
+
+      });"
+    language: text/javascript
+order: 4000
